@@ -28,3 +28,14 @@ export type Size =
   | "L"
   | "XL"
   | "XXL"
+
+  export type ProductFilters = {
+    brand?: string[]
+    minPrice?: number
+    maxPrice?: number
+    sizes?: Size[]
+    colors?: string[]
+    search?: string
+    category?: string
+    inStock?: boolean
+  }
