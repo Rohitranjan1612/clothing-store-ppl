@@ -13,14 +13,42 @@ export const productService = {
     await delay(800);
 
     let products = [...mockProducts];
-
+    // Brand
     if (filters?.brand?.length) {
-      products = products.filter((p) => filters.brand!.includes(p.brand));
+      products = products.filter((p) => filters.brand?.includes(p.brand));
     }
-
+    // Search
     if (filters?.search) {
       const search = filters.search.toLowerCase();
       products = products.filter((p) => p.name.toLowerCase().includes(search));
+    }
+    // Category
+    if (filters?.category) {
+      products = products.filter((p) => p.category === filters.category);
+    }
+    // Size
+    if (filters?.sizes?.length) {
+      products = products.filter((p) =>
+        p.sizes.some((s) => filters.sizes!.includes(s))
+      );
+    }
+    // Color
+    if (filters?.colors?.length) {
+      products = products.filter((p) =>
+        p.colors?.some((c) => filters.colors!.includes(c))
+      );
+    }
+    // In Stock
+    if (filters?.inStock) {
+      products = products.filter((p) => p.inStock);
+    }
+    // Min Price
+    if (filters?.minPrice !== undefined) {
+      products = products.filter((p) => p.price >= filters?.minPrice!);
+    }
+    // Max Price
+    if (filters?.maxPrice !== undefined) {
+      products = products.filter((p) => p.price <= filters?.maxPrice!);
     }
 
     const start = page * PAGE_SIZE;

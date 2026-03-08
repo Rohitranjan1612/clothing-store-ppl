@@ -12,6 +12,17 @@ export default function ProductsPage() {
   const router = useRouter();
   const filters = {
     search: params.get("search") || "",
+    brand: params.getAll("brand"),
+    size: params.getAll("size"),
+    category: params.get("category") || undefined,
+    color: params.getAll("color"),
+    inStock: params.get("inStock") === "true",
+    minPrice: params.get("minPrice")
+      ? Number(params.get("minPrice"))
+      : undefined,
+    maxPrice: params.get("maxPrice")
+      ? Number(params.get("maxPrice"))
+      : undefined,
   };
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage } =

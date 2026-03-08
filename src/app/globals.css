@@ -112,3 +112,26 @@ body {
 .dark ::-webkit-scrollbar-thumb {
   background: #475569;
 }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #2563eb;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #2563eb;
+  cursor: pointer;
+}
