@@ -1,6 +1,6 @@
 import "./globals.css";
 import Providers from "./providers";
-import Navbar from "@/components/layout/Navbar";
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
 
 export default function RootLayout({
   children,
@@ -11,8 +11,9 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body>
         <Providers>
-          <Navbar />
-          {children}
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
         </Providers>
       </body>
     </html>

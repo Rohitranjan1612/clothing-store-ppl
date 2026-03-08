@@ -1,9 +1,21 @@
-export default function Home() {
-  return (
-    <main className="p-10">
-      <h1 className="text-3xl font-bold">
-        Clothing Store
-      </h1>
-    </main>
-  )
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function HomePage() {
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      router.push("/products");
+    } else {
+      router.push("/login");
+    }
+  }, []);
+
+  return null;
 }

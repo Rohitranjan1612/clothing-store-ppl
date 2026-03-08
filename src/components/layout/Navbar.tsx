@@ -1,47 +1,47 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { Heart, ShoppingCart, User, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
-import { Heart, ShoppingCart, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const cartItems = useCartStore((s) => s.items);
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    router.push("/login");
+  };
 
   return (
     <header className="border-b bg-white sticky top-0 z-50">
-
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-
         {/* Logo */}
-        <Link
-          href="/products"
-          className="text-xl font-semibold text-teal-600"
-        >
+        <Link href="/products" className="text-teal-600 font-semibold text-xl">
           Stella
         </Link>
 
         {/* Search */}
-        <div className="hidden md:flex flex-1 max-w-xl mx-8">
-
+        <div className="hidden md:flex flex-1 max-w-2xl mx-10">
           <input
             type="text"
             placeholder="What are you looking for?"
-            className="w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full border rounded-xl px-4 py-2 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
-
         </div>
 
         {/* Right Side */}
-        <div className="flex items-center gap-5">
-
+        <div className="flex items-center gap-6">
           {/* Wishlist */}
-          <button className="relative">
-            <Heart className="w-5 h-5 text-gray-600" />
+          <button className="hover:text-teal-600 transition">
+            <Heart size={20} />
           </button>
 
           {/* Cart */}
-          <button className="relative">
-            <ShoppingCart className="w-5 h-5 text-gray-600" />
+          <button className="relative hover:text-teal-600 transition">
+            <ShoppingCart size={20} />
 
             {cartItems.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
@@ -50,11 +50,27 @@ export default function Navbar() {
             )}
           </button>
 
-          {/* User */}
-          <button>
-            <User className="w-5 h-5 text-gray-600" />
-          </button>
+          {/* User Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setOpen(!open)}
+              className="hover:text-teal-600 transition"
+            >
+              <User size={20} />
+            </button>
 
+            {open && (
+              <div className="absolute right-0 mt-3 w-40 bg-white border rounded-lg shadow-lg">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-100"
+                >
+                  <LogOut size={16} />
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>

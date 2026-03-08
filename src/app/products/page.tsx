@@ -5,13 +5,22 @@ import { useInfiniteProducts } from "@/hooks/useInfiniteProducts";
 import ProductGrid from "@/components/product/ProductGrid";
 import FiltersSidebar from "@/components/filters/FiltersSidebar";
 import HeroBanner from "@/components/layout/HeroBanner";
+import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const { fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteProducts();
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (!user) {
+      router.push("/login");
+    }
+  }, []);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
