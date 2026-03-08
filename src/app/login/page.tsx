@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -19,6 +19,12 @@ export default function LoginPage() {
     localStorage.setItem("user", JSON.stringify({ email }));
     router.push("/products");
   };
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      router.push("/products");
+    }
+  }, []);
 
   return (
     <div className="flex justify-center items-center h-screen">

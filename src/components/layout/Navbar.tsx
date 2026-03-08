@@ -11,7 +11,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const handleLogout = () => {
-    localStorage.removeItem("auth");
+    localStorage.removeItem("user");
     router.push("/login");
   };
 
