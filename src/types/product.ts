@@ -1,41 +1,35 @@
 export type Product = {
-  id: string
+  id: string;
+  name: string;
+  brand: string;
+  category: string;
+  price: number;
+  originalPrice?: number;
+  images: string[];
+  sizes: Size[];
+  colors: string[];
+  isNew: boolean;
+  inStock: boolean;
+  stockCount: number;
+  rating: number;
+  reviewCount: number;
+};
 
-  name: string
-  brand: string
-  category: string
+export type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL";
 
-  price: number
-  originalPrice?: number
+export type ProductFilters = {
+  brand?: string[];
+  minPrice?: number;
+  maxPrice?: number;
+  sizes?: Size[];
+  colors?: string[];
+  search?: string;
+  category?: string;
+  inStock?: boolean;
+};
 
-  images: string[]
-
-  sizes: Size[]
-  colors: string[]
-
-  isNew: boolean
-  inStock: boolean
-  stockCount: number
-
-  rating: number
-  reviewCount: number
-}
-
-export type Size =
-  | "XS"
-  | "S"
-  | "M"
-  | "L"
-  | "XL"
-  | "XXL"
-
-  export type ProductFilters = {
-    brand?: string[]
-    minPrice?: number
-    maxPrice?: number
-    sizes?: Size[]
-    colors?: string[]
-    search?: string
-    category?: string
-    inStock?: boolean
-  }
+export type PaginatedProducts = {
+  products: Product[];
+  page: number;
+  hasMore: boolean;
+};

@@ -1,30 +1,37 @@
-import { Product } from "@/types/product"
-import { mockProducts } from "@/data/mockProducts"
+import { mockProducts } from "@/data/mockProducts";
+import { PaginatedProducts, ProductFilters } from "@/types/product";
 
-const delay = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms))
+const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+const PAGE_SIZE = 12;
 
 export const productService = {
-  async getProducts(): Promise<Product[]> {
-    await delay(800)
+  async getProducts(
+    page: number,
+    filters?: ProductFilters
+  ): Promise<PaginatedProducts> {
+    await delay(800);
 
-    // simulate occasional failure
-    if (Math.random() < 0.1) {
-      throw new Error("Failed to fetch products")
+    let products = [...mockProducts];
+
+    if (filters?.brand?.length) {
+      products = products.filter((p) => filters.brand!.includes(p.brand));
     }
 
-    return mockProducts
+    if (filters?.search) {
+      const search = filters.search.toLowerCase();
+      products = products.filter((p) => p.name.toLowerCase().includes(search));
+    }
+
+    const start = page * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+
+    const paginated = products.slice(start, end);
+
+    return {
+      products: paginated,
+      page,
+      hasMore: end < products.length,
+    };
   },
-
-  async getProductById(id: string): Promise<Product> {
-    await delay(500)
-
-    const product = mockProducts.find((p) => p.id === id)
-
-    if (!product) {
-      throw new Error("Product not found")
-    }
-
-    return product
-  }
-}
+};
