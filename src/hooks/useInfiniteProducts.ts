@@ -1,11 +1,18 @@
 "use client";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { productService } from "@/services/productService";
 import { useProductStore } from "@/store/productStore";
 import { ProductFilters, PaginatedProducts } from "@/types/product";
+import { useEffect } from "react";
 
 export function useInfiniteProducts(filters?: ProductFilters) {
   const addProducts = useProductStore((s) => s.addProducts);
+  const clearProducts = useProductStore((s) => s.clearProducts);
+
+  useEffect(() => {
+    clearProducts();
+  }, [filters]);
 
   return useInfiniteQuery<
     PaginatedProducts,

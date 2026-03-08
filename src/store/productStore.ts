@@ -4,8 +4,8 @@ import { Product } from "@/types/product";
 type ProductState = {
   entities: Record<string, Product>;
   ids: string[];
-
   addProducts: (products: Product[]) => void;
+  clearProducts: () => void;
 };
 
 export const useProductStore = create<ProductState>((set) => ({
@@ -29,5 +29,10 @@ export const useProductStore = create<ProductState>((set) => ({
         entities: newEntities,
         ids: newIds,
       };
+    }),
+  clearProducts: () =>
+    set({
+      entities: {},
+      ids: [],
     }),
 }));

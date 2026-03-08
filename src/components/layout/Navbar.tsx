@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Heart, ShoppingCart, User, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
+import NavbarSearch from "./NavbarSearch";
 
 export default function Navbar() {
   const cartItems = useCartStore((s) => s.items);
@@ -25,11 +26,7 @@ export default function Navbar() {
 
         {/* Search */}
         <div className="hidden md:flex flex-1 max-w-2xl mx-10">
-          <input
-            type="text"
-            placeholder="What are you looking for?"
-            className="w-full border rounded-xl px-4 py-2 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
+          <NavbarSearch />
         </div>
 
         {/* Right Side */}

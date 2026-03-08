@@ -5,14 +5,19 @@ import { useInfiniteProducts } from "@/hooks/useInfiniteProducts";
 import ProductGrid from "@/components/product/ProductGrid";
 import FiltersSidebar from "@/components/filters/FiltersSidebar";
 import HeroBanner from "@/components/layout/HeroBanner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
+  const params = useSearchParams();
+  const router = useRouter();
+  const filters = {
+    search: params.get("search") || "",
+  };
+
   const { fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteProducts();
+    useInfiniteProducts(filters);
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -21,6 +26,7 @@ export default function ProductsPage() {
       router.push("/login");
     }
   }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -44,12 +50,10 @@ export default function ProductsPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex gap-10">
-          {/* Sidebar */}
           <div className="hidden lg:block w-64">
             <FiltersSidebar />
           </div>
 
-          {/* Product Grid */}
           <div className="flex-1">
             <ProductGrid />
 
