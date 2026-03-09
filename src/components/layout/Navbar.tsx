@@ -16,6 +16,7 @@ export default function Navbar() {
   const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("cart");
     router.push("/login");
   };
   useEffect(() => {
