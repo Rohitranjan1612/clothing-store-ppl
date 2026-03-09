@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useInfiniteProducts } from "@/hooks/useInfiniteProducts";
 import ProductGrid from "@/components/product/ProductGrid";
 import FiltersSidebar from "@/components/filters/FiltersSidebar";
@@ -10,20 +10,23 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function ProductsPage() {
   const params = useSearchParams();
   const router = useRouter();
-  const filters = {
-    search: params.get("search") || "",
-    brand: params.getAll("brand"),
-    size: params.getAll("size"),
-    category: params.get("category") || undefined,
-    color: params.getAll("color"),
-    inStock: params.get("inStock") === "true",
-    minPrice: params.get("minPrice")
-      ? Number(params.get("minPrice"))
-      : undefined,
-    maxPrice: params.get("maxPrice")
-      ? Number(params.get("maxPrice"))
-      : undefined,
-  };
+  const filters = useMemo(
+    () => ({
+      search: params.get("search") || undefined,
+      brand: params.getAll("brand") || undefined,
+      size: params.getAll("size") || undefined,
+      category: params.get("category") || undefined,
+      colors: params.getAll("color") || undefined,
+      inStock: params.get("inStock") === "true",
+      minPrice: params.get("minPrice")
+        ? Number(params.get("minPrice"))
+        : undefined,
+      maxPrice: params.get("maxPrice")
+        ? Number(params.get("maxPrice"))
+        : undefined,
+    }),
+    [params]
+  );
 
   const { fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteProducts(filters);
@@ -32,7 +35,6 @@ export default function ProductsPage() {
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-
     if (!user) {
       router.push("/login");
     }
@@ -58,16 +60,13 @@ export default function ProductsPage() {
   return (
     <main>
       <HeroBanner />
-
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex gap-10">
           <div className="hidden lg:block w-64">
             <FiltersSidebar />
           </div>
-
           <div className="flex-1">
             <ProductGrid />
-
             <div
               ref={loaderRef}
               className="h-20 flex justify-center items-center"

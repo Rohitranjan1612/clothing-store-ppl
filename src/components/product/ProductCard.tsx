@@ -1,4 +1,5 @@
 import { Product } from "@/types/product";
+import Link from "next/link";
 
 type Props = {
   product: Product;
@@ -8,12 +9,13 @@ export default function ProductCard({ product }: Props) {
   return (
     <div className="bg-white rounded-xl border hover:shadow-lg transition">
       <div className="relative">
-        <img
-          src={product.images[0]}
-          alt={product.name}
-          className="w-full h-[320px] object-cover rounded-t-xl"
-        />
-
+        <Link href={`/products/${product.id}`}>
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="w-full h-[320px] object-cover rounded-t-xl"
+          />
+        </Link>
         {product.isNew && (
           <span className="absolute top-3 left-3 bg-teal-500 text-white text-xs px-2 py-1 rounded">
             New Arrival

@@ -62,4 +62,12 @@ export const productService = {
       hasMore: end < products.length,
     };
   },
+  async getProductById(id: string) {
+    await delay(400);
+    const product = mockProducts.find((p) => p.id === id);
+    if (!product) {
+      throw new Error("Product not found");
+    }
+    return product;
+  }
 };
